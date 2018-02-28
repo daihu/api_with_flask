@@ -75,7 +75,7 @@ HTTP 方法告知服务器，客户端想对请求的页面做些什么。下面
 
 - 博客：http://ftopia.cn/ 
 - 邮箱：ftopia@163.com
-- GitHub: https://github.com/luke0922/the-way-to-flask.git
+- GitHub: https://github.com/ftopiafee/api_with_flask
 
 
 
