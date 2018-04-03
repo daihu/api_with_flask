@@ -6,6 +6,7 @@ from flask import jsonify, request
 from flask_login import login_user, logout_user
 
 from datetime import datetime
+import shortuuid
 
 from app.models.user import User
 
@@ -18,7 +19,7 @@ def registerUser():
         return jsonify({'err': 'Name is already existed.'})
     else:
         user = User(
-            user_id=User.objects().count() + 1,
+            user_id=shortuuid.uuid(),
             name=request.json['name'],
             email=request.json['email'] if 'email' in request.json else "",
             pwd=request.json['pwd'],

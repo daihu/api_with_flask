@@ -5,6 +5,7 @@ from flask_mongoengine import MongoEngine
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 
 from datetime import datetime
+import shortuuid
 
 app = Flask(__name__)
 app.config['MONGODB_SETTINGS'] = {
@@ -22,7 +23,7 @@ app.secret_key = 'secret_key'
 
 
 class User(db.Document):
-    user_id = db.IntField(required=True)
+    user_id = db.StringField(required=True)
     name = db.StringField(required=True, max_length=100)
     email = db.StringField(max_length=200)
     pwd = db.StringField(requied=True, min_length=6)
@@ -61,7 +62,7 @@ def registerUser():
         return jsonify({'err': 'Name is already existed.'})
     else:
         user = User(
-            user_id=User.objects().count() + 1,
+            user_id=shortuuid.uuid(),
             name=request.json['name'],
             email=request.json['email'] if 'email' in request.json else "",
             pwd=request.json['pwd'],
@@ -70,7 +71,8 @@ def registerUser():
         try:
             user.save()
             login_user(user)
-        except Exception:
+        except Exception as e:
+            print (e)
             return jsonify({'err': 'Register error.'})
     return jsonify({'status': 0, 'user_id': user['user_id'], 'msg': 'Register success.'})
 

@@ -4,15 +4,11 @@
 
 ### Python版本
 
-#### 2.x >= 2.6
+**2.x >= 2.6**		需要 Python 2.6 或更高的版本
 
-需要 Python 2.6 或更高的版本
+**3.x >= 3.3**		需要 Python3.3 或更高的版本（本教程使用 Python 3.6.0 版本）
 
-#### 3.x >= 3.3
-
-需要 Python3.3 或更高的版本（本教程使用 Python 3.6.0 版本）
-
-#### 依赖库
+### 依赖库
 
 Flask 依赖两个外部库：[Werkzeug](http://werkzeug.pocoo.org/) 和 [Jinja2](http://jinja.pocoo.org/2/) 。 Werkzeug 是一个 WSGI（在 Web 应用和多种服务器之间的标准 Python 接口) 工具集。Jinja2 负责渲染模板。
 
@@ -29,6 +25,8 @@ pip install Flask
 ```
 
 最后，除Flask外，会安装一些相关的插件，后续章节会介绍，请自行pip安装
+
+
 
 
 
@@ -61,6 +59,8 @@ app.run()
 5. 用 [`run()`](http://docs.jinkan.org/docs/flask/api.html#flask.Flask.run) 函数来让应用运行在本地服务器上
 
 
+> 对应示例代码： 01-1_HelloWorld.py
+
 
 
 ### Advance
@@ -92,6 +92,8 @@ app.run()
 ```
 
 运行后，浏览器访问 <http://127.0.0.1:5000/> ，可见返回体为json` {"msg": "Hello World!"}`，响应头变为 `application/json` 
+
+> 对应示例代码： 01-2_Rest_Jsonify.py
 
 
 
@@ -139,6 +141,10 @@ if __name__ == '__main__':
 | float     | 同 int ，但是接受浮点数 |
 | path      | 和默认的相似，但也接受斜线  |
 
+> 对应示例代码： 01-3_Rest_Router.py
+
+
+
 #### 增删改查
 
 在之前的实例中我们可见 `@app.route('/')` 装饰器定义了URL路由（默认方式为查GET），同样的，其余的各种请求方式也由该装饰器完成。具体使用方式为通过一个叫做 methods 的参数指定，如下分别对应增删改的方式（POST、DELETE、PUT） 进行了路由绑定：
@@ -148,8 +154,6 @@ if __name__ == '__main__':
 @app.route('/', methods=['DELETE'])
 @app.route('/', methods=['PUT'])
 ```
-
-有关HTTP方法，如不了解可参考下方，建议学习Flask前就已经熟悉HTTP协议相关内容。
 
 数据库操作超出本章讨论范围，所以这边简单地以内存进行数据存储操作，示例如下：
 
@@ -193,27 +197,29 @@ if __name__ == '__main__':
 
 以上示例运行后，需要模拟不同请求方式，建议使用Postman等工具。
 
-P.S 有关请求参数：在 Flask 中有一个 request 变量，这是一个请求上下文的变量，里面包含多个属性是可以用来获取请求参数的，例如上例中的`request.json` ，在此仅提下，有关request的更多使用方式请待后续示例。
+> 对应示例代码：  01-4_Rest_Methods.py
+
+另外，有关请求参数：在 Flask 中有一个 **request** 变量，这是一个请求上下文的变量，里面包含多个属性是可以用来获取请求参数的，例如上例中的`request.json` ，在此仅提下，有关request的更多使用方式请待后续示例。
 
 本节的目标是让大家初步了解Flask是如何对 GET、POST、PUT 等不同的请求方式做处理的。
 
 
 
+ 
+
 ## 外部可访问的服务器 & 调试模式
 
 最后，简单说下外部访问服务器配置以及调试模式。
 
-如果你禁用了 debug 或信任你所在网络的用户，你可以简单修改调用 [`run()`](http://docs.jinkan.org/docs/flask/api.html#flask.Flask.run) 的方法使你的服务器公开可用，如下:
+如果你禁用了 debug 或信任你所在网络的用户，你可以简单修改调用 [`run()`](http://docs.jinkan.org/docs/flask/api.html#flask.Flask.run) 的方法使你的服务器公开可用，如:
 
+```python
+app.run(host='0.0.0.0')		# 操作系统监听所有公网 IP
 ```
-app.run(host='0.0.0.0')
-```
 
-这会让操作系统监听所有公网 IP。
+有两种途径来启用调试模式，两种方法的效果完全相同。一种是直接在应用对象上设置:
 
-有两种途径来启用调试模式。一种是直接在应用对象上设置:
-
-```
+```python
 app.debug = True
 app.run()
 ```
@@ -223,8 +229,6 @@ app.run()
 ```
 app.run(debug=True)
 ```
-
-两种方法的效果完全相同。
 
 **注意**：尽管交互式调试器在允许 fork 的环境中无法正常使用（也即在生产服务器上正常使用几乎是不可能的），但它依然允许执行任意代码。这使它成为一个巨大的安全隐患，因此它 **绝对不能用于生产环境** 。
 

@@ -4,7 +4,7 @@ from app import db
 
 
 class User(db.Document):
-    user_id = db.IntField(required=True)
+    user_id = db.StringField(required=True)
     name = db.StringField(required=True, max_length=100)
     email = db.StringField(max_length=200)
     pwd = db.StringField(requied=True, min_length=6)
